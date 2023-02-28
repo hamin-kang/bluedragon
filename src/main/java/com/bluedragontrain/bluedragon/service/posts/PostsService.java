@@ -2,12 +2,16 @@ package com.bluedragontrain.bluedragon.service.posts;
 
 import com.bluedragontrain.bluedragon.domain.posts.Posts;
 import com.bluedragontrain.bluedragon.domain.posts.PostsRepository;
+import com.bluedragontrain.bluedragon.web.dto.PostsListResponseDto;
 import com.bluedragontrain.bluedragon.web.dto.PostsResponseDto;
 import com.bluedragontrain.bluedragon.web.dto.PostsSaveRequestDto;
 import com.bluedragontrain.bluedragon.web.dto.PostsUpdateRequestDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -34,4 +38,10 @@ public class PostsService {
         );
         return new PostsResponseDto(entity);
     }
+
+    @Transactional
+    public List<PostsListResponseDto> findAllDesc() {
+        return postsRepository.findAllDesc().stream().map(PostsListResponseDto::new).collect(Collectors.toList());
+    }
+
 }
