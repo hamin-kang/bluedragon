@@ -25,7 +25,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().headers().frameOptions().disable()
                 .and().authorizeHttpRequests()
-                .requestMatchers("/", "/css/**", "/images/**", "/h2-console/**").permitAll()
+                .requestMatchers("/", "/css/**", "/images/**", "/js/**","/h2-console/**", "/profile").permitAll()
                 .requestMatchers("/api/v1/**").hasRole(Role.USER.name())
                 .anyRequest().authenticated()
                 .and().logout().logoutSuccessUrl("/")
