@@ -11,9 +11,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
+import lombok.Setter;
 
 @Entity // DB테이블과 매핑되는 자바 클래스
 @Getter
+@Setter
 public class Question { // 질문 엔티티
 	@Id // 엔티티에서 각 데이터들을 구분하는 기본키. 중복 x
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // 데이터가 생성될 때마다 기본키가 1씩 증가한다.
