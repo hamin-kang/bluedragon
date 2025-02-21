@@ -18,7 +18,5 @@ class BluedragonApplicationTests {
 	void testJpa() {
 		List<Question> all = this.questionRepository.findAll(); // SELECT * FROM QUESTION
 		assertEquals(2, all.size());
-		
-		Question q = all.get(0);
 	}
 }
