@@ -1,8 +1,8 @@
 package com.bdboard.bluedragon;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +16,10 @@ class BluedragonApplicationTests {
 	
 	@Test
 	void testJpa() {
-		List<Question> qList = this.questionRepository.findBySubjectLike("트럼프%");
-		Question q = qList.get(0);
-		assertEquals("트럼프 2기의 무역정책", q.getSubject());
+		Optional<Question> oq = this.questionRepository.findById(1);
+		assertTrue(oq.isPresent());
+		Question q = oq.get();
+		q.setSubject("수정된 제목");
+		this.questionRepository.save(q);
 	}
 }
