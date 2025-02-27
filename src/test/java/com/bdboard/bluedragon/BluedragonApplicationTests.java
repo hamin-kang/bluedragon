@@ -21,5 +21,6 @@ class BluedragonApplicationTests {
 		Question q = oq.get();
 		q.setSubject("수정된 제목");
 		this.questionRepository.save(q);
+		System.out.println("");
 	}
 }
