@@ -1,5 +1,6 @@
 package com.bdboard.bluedragon;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
@@ -16,11 +17,11 @@ class BluedragonApplicationTests {
 	
 	@Test
 	void testJpa() {
+		assertEquals(2, this.questionRepository.count());
 		Optional<Question> oq = this.questionRepository.findById(1);
 		assertTrue(oq.isPresent());
 		Question q = oq.get();
-		q.setSubject("수정된 제목");
-		this.questionRepository.save(q);
-		System.out.println("");
+		this.questionRepository.delete(q);
+		assertEquals(1, this.questionRepository.count());
 	}
 }
