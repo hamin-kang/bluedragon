@@ -1,4 +1,4 @@
-package com.bdboard.bluedragon;
+package com.bdboard.bluedragon.question;
 
 import java.util.List;
 

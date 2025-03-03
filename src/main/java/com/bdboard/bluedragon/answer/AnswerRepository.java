@@ -1,4 +1,4 @@
-package com.bdboard.bluedragon;
+package com.bdboard.bluedragon.answer;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

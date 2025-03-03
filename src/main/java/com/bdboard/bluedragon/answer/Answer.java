@@ -1,6 +1,8 @@
-package com.bdboard.bluedragon;
+package com.bdboard.bluedragon.answer;
 
 import java.time.LocalDateTime;
+
+import com.bdboard.bluedragon.question.Question;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

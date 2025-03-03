@@ -1,7 +1,9 @@
-package com.bdboard.bluedragon;
+package com.bdboard.bluedragon.question;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import com.bdboard.bluedragon.answer.Answer;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
