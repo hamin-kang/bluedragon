@@ -11,11 +11,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor // final 또는 @NonNull 필드에 대해 생성자를 자동으로 생성해줌.
 @Controller
 public class QuestionController {
-	private final QuestionRepository questionRepository;
+	private final QuestionService questionService;
 	
 	@GetMapping("/question/list")
 	public String list(Model model) {
-		List<Question> questionList = this.questionRepository.findAll();
+		List<Question> questionList = this.questionService.getList();
 		model.addAttribute("questionList", questionList);
 		return "question_list";
 	}
