@@ -1,5 +1,6 @@
 package com.bdboard.bluedragon.question;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,7 +11,7 @@ import com.bdboard.bluedragon.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@Service // 데이터 처리를 위해 작성하는 클래스. 리포지터리의 메서드 호출하는 클래스 
+@Service // 데이터 처리를 위해 작성하는 클래스
 public class QuestionService {
 	private final QuestionRepository questionRepository;
 	
@@ -25,5 +26,13 @@ public class QuestionService {
 		} else {
 			throw new DataNotFoundException("question not found");
 		}
+	}
+	
+	public void create(String subject, String content) {
+		Question q = new Question();
+		q.setSubject(subject);
+		q.setContent(content);
+		q.setCreateDate(LocalDateTime.now());
+		this.questionRepository.save(q);
 	}
 }
