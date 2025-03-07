@@ -1,41 +1,22 @@
 package com.bdboard.bluedragon;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.bdboard.bluedragon.answer.Answer;
-import com.bdboard.bluedragon.answer.AnswerRepository;
-import com.bdboard.bluedragon.question.Question;
-import com.bdboard.bluedragon.question.QuestionRepository;
+import com.bdboard.bluedragon.question.QuestionService;
 
 @SpringBootTest
 class BluedragonApplicationTests {
+	@Autowired
+	private QuestionService questionService;
 	
-	@Autowired // DI(Dependency Injection): 의존성 주입, QuestionRepositroy 객체 주입.
-	private QuestionRepository questionRepository;
-	
-	@Autowired // 답변 엔티티 데이터 생성 및 저장.
-	private AnswerRepository answerRepository;
-	
-	@Transactional
 	@Test
-	void testJpa() { // 질문 데이터에서 답변 데이터 찾기
-		Optional<Question> oq = this.questionRepository.findById(2);
-		assertTrue(oq.isPresent());
-		Question q = oq.get();
-		
-		List<Answer> answerList = q.getAnswerList();
-		
-		assertEquals(1, answerList.size());
-		assertEquals("네 자동으로 생성됩니다.", answerList.get(0).getContent());
+	void testJpa() {
+		for (int i = 0; i < 300; i++) {
+			String subject = String.format("하나 둘 셋 - 테스트 데이터입니다: [%03d]", i + 1);
+			String content = "상처를 치료해 줄 사람 어디 없나~ 가만히 놔두다간 끊임없이 덧나.";
+			this.questionService.create(subject, content);
+		}
 	}
 }
