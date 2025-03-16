@@ -9,17 +9,32 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.bdboard.bluedragon.DataNotFoundException;
 import com.bdboard.bluedragon.user.SiteUser;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service // 데이터 처리를 위해 작성하는 클래스
 public class QuestionService {
 	private final QuestionRepository questionRepository;
+	
+	private Specification<Question> search(String kw) {
+		return new Specification() {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public Predicate toPredicate(Root<Question> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				query.distinct(true); // 중복 제거
+			}
+		};
+	}
 	
 	public Page<Question> getList(int page) {
 		List<Sort.Order> sorts = new ArrayList<>();
