@@ -14,7 +14,7 @@ import org.springframework.security.web.header.writers.frameoptions.XFrameOption
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity // 웹 보안기능 활성화
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 	@Bean
