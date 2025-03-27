@@ -6,7 +6,7 @@ import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CommonUtil {
+public class CommonUtil { // 공통 유틸리티 클래스
 	public String markdown(String markdown) {
 		Parser parser = Parser.builder().build();
 		Node document = parser.parse(markdown);

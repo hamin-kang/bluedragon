@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class AnswerService {
+public class AnswerService { // 답변 비즈니스 로직
 	private final AnswerRepository answerRepository;
 	
 	public Answer create(Question question, String content, SiteUser author) {

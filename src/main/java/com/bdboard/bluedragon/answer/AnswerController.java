@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/answer")
 @RequiredArgsConstructor
 @Controller
-public class AnswerController {
+public class AnswerController { // 답변 관련 웹 요청 처리
 	private final QuestionService questionService;
 	
 	private final AnswerService answerService;

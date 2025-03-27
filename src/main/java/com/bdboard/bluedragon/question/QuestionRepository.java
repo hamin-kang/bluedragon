@@ -7,8 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface QuestionRepository extends JpaRepository<Question, Integer> {
-	// Repository 는 생성된 테이블의 데이터를 CRUD 할 수 있게 만들어주는 인터페이스
+public interface QuestionRepository extends JpaRepository<Question, Integer> { // Repository: 데이터 접근 로직 담당
+	// JpaRepository<Question, Integer>: JPA 기능을 사용하여 Question 엔티티에 대한 CRUD 연산을 제공한다.
 	// Question 엔티티로 Repository 생성. 이 엔티티의 기본키가 Integer
 	Question findBySubject(String subject);
 	Question findBySubjectAndContent(String subject, String content);

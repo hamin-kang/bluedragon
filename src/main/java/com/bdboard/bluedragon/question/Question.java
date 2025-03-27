@@ -36,14 +36,14 @@ public class Question { // 질문 엔티티
 	
 	private LocalDateTime createDate; // 질문 데이터를 작성한 시각
 	
+	private LocalDateTime modifyDate;
+	
 	@OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE) // 질문에서 답변 참조. 1:N(일대다)
 	private List<Answer> answerList;
 	
 	@ManyToOne
 	private SiteUser author;
-	
-	private LocalDateTime modifyDate;
-	
+
 	@ManyToMany
 	Set<SiteUser> voter;
 }

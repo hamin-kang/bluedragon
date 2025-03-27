@@ -29,13 +29,13 @@ public class Answer { // 답변 엔티티
 	
 	private LocalDateTime createDate; // 답변 작성 시각
 	
+	private LocalDateTime modifyDate;
+	
 	@ManyToOne // 답변으로 질문 참조. 질문 하나에 답변이 여러 개 달릴 수 있으므로 N:1(다대일)
 	private Question question; // 질문 데이터
 	
 	@ManyToOne
 	private SiteUser author;
-	
-	private LocalDateTime modifyDate;
 	
 	@ManyToMany
 	Set<SiteUser> voter;

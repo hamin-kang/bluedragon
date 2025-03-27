@@ -25,8 +25,8 @@ import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@Service // 데이터 처리를 위해 작성하는 클래스
-public class QuestionService {
+@Service
+public class QuestionService { // @Service 는 비즈니스 로직을 담당
 	private final QuestionRepository questionRepository;
 	
 	private Specification<Question> search(String kw) {

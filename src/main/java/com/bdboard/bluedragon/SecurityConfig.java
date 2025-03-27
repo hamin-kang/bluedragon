@@ -37,7 +37,7 @@ public class SecurityConfig {
 	}
 	
 	@Bean
-	PasswordEncoder passwordEncoder() {
+	PasswordEncoder passwordEncoder() { // 비밀번호 암호화하는 빈 정의
 		return new BCryptPasswordEncoder();
 	}
 	
