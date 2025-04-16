@@ -1,5 +1,6 @@
 package com.bdboard.bluedragon.board;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -64,4 +65,14 @@ public class BoardService {
 			throw new DataNotFoundException("board not found");
 		}
 	}
+
+	public void create(String subject, String content, SiteUser user) {
+		Board b = new Board();
+		b.setSubject(subject);
+		b.setContent(content);
+		b.setCreateDate(LocalDateTime.now());
+		b.setAuthor(user);
+		this.boardRepository.save(b);
+	}
+	
 }

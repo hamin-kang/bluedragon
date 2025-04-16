@@ -1,16 +1,23 @@
 package com.bdboard.bluedragon.board;
 
+import java.security.Principal;
+
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bdboard.bluedragon.comment.CommentForm;
+import com.bdboard.bluedragon.user.SiteUser;
 import com.bdboard.bluedragon.user.UserService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,5 +45,23 @@ public class BoardController { // 게시판 관련 웹 요청 처리
 		Board board = this.boardService.getBoard(id);
 		model.addAttribute("board", board);
 		return "board_detail";
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/create")
+	public String boardCreate(BoardForm boardForm) {
+		return "board_form";
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping("/create")
+	public String boardCreate(@Valid BoardForm boardForm, BindingResult bindingResult,
+			Principal principal) {
+		if (bindingResult.hasErrors()) {
+			return "board_form";
+		}
+		SiteUser siteUser = this.userService.getUser(principal.getName());
+		this.boardService.create(boardForm.getSubject(), boardForm.getContent(), siteUser);
+		return "redirect:/board/list";
 	}
 }

@@ -23,6 +23,7 @@ public class AnswerService { // 답변 비즈니스 로직
 		answer.setQuestion(question);
 		answer.setAuthor(author);
 		this.answerRepository.save(answer);
+		
 		return answer;
 	}
 	
