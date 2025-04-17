@@ -53,6 +53,7 @@ public class AnswerController { // 답변 관련 웹 요청 처리
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
 		}
 		answerForm.setContent(answer.getContent());
+		
 		return "answer_form";
 	}
 	

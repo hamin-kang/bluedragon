@@ -76,6 +76,7 @@ public class QuestionController { // 질문 관련 웹 요청 처리
 		}
 		questionForm.setSubject(question.getSubject());
 		questionForm.setContent(question.getContent());
+		
 		return "question_form";
 	}
 	
@@ -91,6 +92,7 @@ public class QuestionController { // 질문 관련 웹 요청 처리
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
 		}
 		this.questionService.modify(question, questionForm.getSubject(), questionForm.getContent());
+		
 		return String.format("redirect:/question/detail/%s", id);
 	}
 	
@@ -102,7 +104,8 @@ public class QuestionController { // 질문 관련 웹 요청 처리
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
 		}
 		this.questionService.delete(question);
-		return "redirect:/";
+		
+		return "redirect:/question/list";
 	}
 	
 	@PreAuthorize("isAuthenticated()")
@@ -111,6 +114,7 @@ public class QuestionController { // 질문 관련 웹 요청 처리
 		Question question = this.questionService.getQuestion(id);
 		SiteUser siteUser = this.userService.getUser(principal.getName());
 		this.questionService.vote(question, siteUser);
+		
 		return String.format("redirect:/question/detail/%s", id);
 	}
 }

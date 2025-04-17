@@ -75,4 +75,20 @@ public class BoardService {
 		this.boardRepository.save(b);
 	}
 	
+	public void modify(Board board, String subject, String content) {
+		board.setSubject(subject);
+		board.setContent(content);
+		board.setModifyDate(LocalDateTime.now());
+		this.boardRepository.save(board);
+	}
+	
+	public void delete(Board board) {
+		this.boardRepository.delete(board);
+	}
+	
+	public void vote(Board board, SiteUser siteUser) {
+		board.getVoter().add(siteUser);
+		this.boardRepository.save(board);
+	}
+	
 }
