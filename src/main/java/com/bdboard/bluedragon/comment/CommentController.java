@@ -74,4 +74,26 @@ public class CommentController { // 댓글 관련 웹 요청 처리
 		return String.format("redirect:/board/detail/%s#comment_%s", comment.getBoard().getId(), comment.getId());
 	}
 	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/delete/{id}")
+	public String commentDelete(Principal principal, @PathVariable("id") Integer id) {
+		Comment comment = this.commentService.getComment(id);
+		if (!comment.getAuthor().getUsername().equals(principal.getName())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
+		}
+		this.commentService.delete(comment);
+		
+		return String.format("redirect:/board/detail/%s", comment.getBoard().getId());
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/vote/{id}")
+	public String commentVote(Principal principal, @PathVariable("id") Integer id) {
+		Comment comment = this.commentService.getComment(id);
+		SiteUser siteUser = this.userService.getUser(principal.getName());
+		this.commentService.vote(comment, siteUser);
+		
+		return String.format("redirect:/board/detail/%s#comment_%s", comment.getBoard().getId(), comment.getId());
+	}
+	
 }
