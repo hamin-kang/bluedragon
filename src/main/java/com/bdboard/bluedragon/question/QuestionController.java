@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequestMapping("/question")
-@RequiredArgsConstructor // final 또는 @NonNull 필드에 대해 생성자를 자동으로 생성해줌.
+@RequiredArgsConstructor // final or @NonNull 필드에 대해 생성자를 자동으로 생성해줌.
 @Controller
 public class QuestionController { // 질문 관련 웹 요청 처리
 	private final QuestionService questionService;
