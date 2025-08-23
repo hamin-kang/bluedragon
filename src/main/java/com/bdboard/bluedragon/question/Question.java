@@ -19,7 +19,7 @@ import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity // DB테이블과 매핑되는 자바 클래스
+@Entity // DB테이블과 매핑되는 자바 클래스.
 @Getter
 @Setter
 public class Question { // 질문 엔티티
