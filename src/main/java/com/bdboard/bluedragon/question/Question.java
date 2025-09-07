@@ -27,7 +27,7 @@ public class Question { // 질문 엔티티
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // 데이터가 생성될 때마다 기본키가 1씩 증가한다.
 	private Integer id;
 	
-	// @Column annotation 을 사용하지 않더라도 테이블의 컬럼으로 인식한다. 다만, 세부 설정할 때는 사용
+	// @Column annotation 을 사용하지 않더라도 테이블의 컬럼으로 인식한다. 다만 세부 설정할 때는 사용
 	@Column(length = 200) // 컬럼의 길이 200
 	private String subject; // 질문 제목
 	
@@ -43,7 +43,7 @@ public class Question { // 질문 엔티티
 	
 	@ManyToOne
 	private SiteUser author;
-
+	
 	@ManyToMany
 	Set<SiteUser> voter;
 }
