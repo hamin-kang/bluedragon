@@ -45,4 +45,8 @@ public class Board {
 	
 	@ManyToMany
 	Set<SiteUser> voter;
+	
+	private String filename;
+	
+	private String filepath;
 }

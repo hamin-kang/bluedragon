@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.bdboard.bluedragon.comment.CommentForm;
@@ -58,12 +59,12 @@ public class BoardController { // 게시판 관련 웹 요청 처리
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/create")
 	public String boardCreate(@Valid BoardForm boardForm, BindingResult bindingResult,
-			Principal principal) {
+			Principal principal, @RequestParam("file") MultipartFile file) throws Exception {
 		if (bindingResult.hasErrors()) {
 			return "board_form";
 		}
 		SiteUser siteUser = this.userService.getUser(principal.getName());
-		this.boardService.create(boardForm.getSubject(), boardForm.getContent(), siteUser);
+		this.boardService.create(boardForm.getSubject(), boardForm.getContent(), siteUser, file);
 		return "redirect:/board/list";
 	}
 	

@@ -1,16 +1,20 @@
 package com.bdboard.bluedragon.board;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bdboard.bluedragon.DataNotFoundException;
 import com.bdboard.bluedragon.comment.Comment;
@@ -28,6 +32,9 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class BoardService {
 	private final BoardRepository boardRepository;
+	
+	@Value("${custom.file.path}")
+	private String filePath;
 	
 	private Specification<Board> search(String kw) {
 		return new Specification<>() {
@@ -66,12 +73,27 @@ public class BoardService {
 		}
 	}
 
-	public void create(String subject, String content, SiteUser user) {
+	public void create(String subject, String content, SiteUser user, MultipartFile file) throws Exception {
 		Board b = new Board();
 		b.setSubject(subject);
 		b.setContent(content);
 		b.setCreateDate(LocalDateTime.now());
 		b.setAuthor(user);
+		
+		if (file != null && !file.isEmpty()) {
+			File directory = new File(filePath);
+			if (!directory.exists()) {
+				directory.mkdirs(); // 경로에 해당하는 폴더가 없으면 생성
+			}
+			UUID uuid = UUID.randomUUID(); // 파일 이름 중복을 피하기 위한 고유 식별자
+			String fileName = uuid + "_" + file.getOriginalFilename();
+            File saveFile = new File(filePath, fileName);
+            file.transferTo(saveFile);
+
+            b.setFilename(fileName); // Board 엔티티에 파일명 저장
+            b.setFilepath("/files/" + fileName); // 웹에서 접근할 경로 저장
+		}
+		
 		this.boardRepository.save(b);
 	}
 	
