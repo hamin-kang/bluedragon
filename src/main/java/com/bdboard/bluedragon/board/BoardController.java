@@ -1,6 +1,9 @@
 package com.bdboard.bluedragon.board;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -56,18 +60,45 @@ public class BoardController { // 게시판 관련 웹 요청 처리
 		return "board_form";
 	}
 	
-	@PreAuthorize("isAuthenticated()")
-	@PostMapping("/create")
-	public String boardCreate(@Valid BoardForm boardForm, BindingResult bindingResult,
-			Principal principal, @RequestParam("file") MultipartFile file) throws Exception {
-		if (bindingResult.hasErrors()) {
-			return "board_form";
-		}
-		SiteUser siteUser = this.userService.getUser(principal.getName());
-		this.boardService.create(boardForm.getSubject(), boardForm.getContent(), siteUser, file);
-		return "redirect:/board/list";
-	}
+	// Toast UI Editor 이미지 업로드 처리
+    @PostMapping("/image-upload")
+    @ResponseBody
+    public String uploadEditorImage(@RequestParam("image") MultipartFile image) {
+        if (image.isEmpty()) {
+            return "";
+        }
+        
+        // 이미지를 저장할 경로를 지정
+        String projectPath = "C:/bluedragon_files/";
+        UUID uuid = UUID.randomUUID();
+        String fileName = uuid + "_" + image.getOriginalFilename();
+        File saveFile = new File(projectPath, fileName);
+
+        try {
+        	// 이미지를 실제 경로에 저장함
+            image.transferTo(saveFile);
+        } catch (IOException e) {
+        	// 파일 저장 중 오류 발생 시 로그를 남김
+        	log.error("이미지 파일 저장 중 오류 발생", e);
+			return ""; // 오류 발생 시 빈 문자열 반환
+        }
+
+        return "/images/" + fileName;
+    }
 	
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/create")
+    public String boardCreate(@Valid BoardForm boardForm, BindingResult bindingResult,
+            Principal principal) throws Exception { // 기존의 @RequestParam("file") MultipartFile file 삭제
+        if (bindingResult.hasErrors()) {
+            return "board_form";
+        }
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        // 이미지 파일 처리 로직이 Editor에서 처리되므로, create 메서드에서 파일 관련 파라미터는 제거
+        this.boardService.create(boardForm.getSubject(), boardForm.getContent(), siteUser, null);
+        return "redirect:/board/list";
+    }
+    
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/modify/{id}")
 	public String boardModify(BoardForm boardForm, @PathVariable("id") Integer id, Principal principal) {
